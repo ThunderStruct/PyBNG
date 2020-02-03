@@ -3,4 +3,4 @@ python: 3.6
 install: 
   - pip install OSGridConverter
 script:
-  - python PyBNG/example.py
+  - python example/example.py
