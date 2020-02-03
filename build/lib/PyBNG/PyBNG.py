@@ -6,7 +6,6 @@
 
 
 from OSGridConverter import grid2latlong, latlong2grid
-import PyBNGError
 import math
 
 class PyBNG:
