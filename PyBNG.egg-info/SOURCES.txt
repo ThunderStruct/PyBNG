@@ -1,0 +1,7 @@
+README.md
+setup.py
+PyBNG.egg-info/PKG-INFO
+PyBNG.egg-info/SOURCES.txt
+PyBNG.egg-info/dependency_links.txt
+PyBNG.egg-info/requires.txt
+PyBNG.egg-info/top_level.txt
