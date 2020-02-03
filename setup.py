@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="PyBNG",
-    version="0.1.0",
+    version="0.1.1",
     author="Mohamed Shahawy",
     author_email="mohamedshahawy@icloud.com",
     description="A library to convert BNG/OSNG coordinates ",
