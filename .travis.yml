@@ -1,6 +1,9 @@
 language: python
-python: 3.6
-install: 
+python:
+  - "3.11"
+install:
+  - python -m pip install --upgrade pip
   - pip install OSGridConverter
+  - pip install -e .
 script:
   - python example/example.py

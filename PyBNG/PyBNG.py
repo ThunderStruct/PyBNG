@@ -90,29 +90,34 @@ class PyBNG:
 
     def __calculate_latlon(self, datum):
 
-        e_digits = int(math.log10(self.easting)) + 1
-        n_digits = int(math.log10(self.northing)) + 1
+        # 100 km grid indices
+        E100 = self.easting // 100000
+        N100 = self.northing // 100000
 
-        multi_dig_n = n_digits > e_digits
+        # Remainders within the 100 km square (0..99999)
+        e_rem = self.easting % 100000
+        n_rem = self.northing % 100000
 
-        extracted_e_dig = self.easting // 10 ** (e_digits - 1)
-        extracted_n_dig = self.northing // 10 ** (n_digits - (2 if multi_dig_n else 1))
-        str_easting = str(self.easting)[1:]
-        str_northing = str(self.northing)[(2 if multi_dig_n else 1):]
+        # Zero-pad remainders to equal precision for OSGridConverter (2/4/6/8/10)
+        width = max(len(str(e_rem)), len(str(n_rem)))
+        e_str = str(e_rem).zfill(width)
+        n_str = str(n_rem).zfill(width)
 
+        # Find the letter pair for (E100, N100)
         convmat = PyBNG.__gen_conv_matrix()
-
-        grid_ref = None
+        letters = None
         for i in range(len(convmat)):
             for j in range(len(convmat[i])):
-                if (convmat[i][j][2] == extracted_e_dig) and (convmat[i][j][3] == extracted_n_dig):
+                if (convmat[i][j][2] == E100) and (convmat[i][j][3] == N100):
                     letters = convmat[i][j][0] + convmat[i][j][1]
-                    grid_ref = letters + ' ' + str_easting + ' ' + str_northing
                     break
+            if letters is not None:
+                break
 
-        if grid_ref is None:
+        if letters is None:
             raise PyBNGError('The entered easting and northing values are invalid', error_type='Invalid Grid Reference')
 
+        grid_ref = letters + ' ' + e_str + ' ' + n_str
         latlon = grid2latlong(grid_ref, datum)
         return (latlon.latitude, latlon.longitude)
 
@@ -184,5 +189,3 @@ class PyBNG:
         
 
 
-
-    
